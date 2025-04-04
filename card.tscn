@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://codbny4ghrgyu"]
+
+[ext_resource type="Texture2D" uid="uid://bfpmo2atbid7f" path="res://Cards/rock_h.png" id="1_ix760"]
+[ext_resource type="Texture2D" uid="uid://f3swognck1n4" path="res://Cards/rock.png" id="2_3pc2r"]
+
+[node name="card" type="Node2D"]
+
+[node name="RockHighlight" type="Sprite2D" parent="."]
+texture = ExtResource("1_ix760")
+
+[node name="Rock" type="Sprite2D" parent="."]
+texture = ExtResource("2_3pc2r")

@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=4 uid="uid://c6w2ue1evpkbe"]
+
+[ext_resource type="Texture2D" uid="uid://cld6jlh5pvr6h" path="res://art/tile.png" id="1_gt86l"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_65lnt"]
+texture = ExtResource("1_gt86l")
+0:0/size_in_atlas = Vector2i(16, 16)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_0g5m8"]
+tile_size = Vector2i(256, 256)
+sources/0 = SubResource("TileSetAtlasSource_65lnt")
+
+[node name="TileMapLayer" type="TileMapLayer"]
+tile_map_data = PackedByteArray("AAABAAEAAAAAAAAAAAACAAEAAAAAAAAAAAABAAIAAAAAAAAAAAACAAIAAAAAAAAAAAADAAEAAAAAAAAAAAADAAIAAAAAAAAAAAAEAAEAAAAAAAAAAAAEAAIAAAAAAAAAAAAFAAEAAAAAAAAAAAAFAAIAAAAAAAAAAAABAAMAAAAAAAAAAAACAAMAAAAAAAAAAAADAAMAAAAAAAAAAAAEAAMAAAAAAAAAAAAFAAMAAAAAAAAAAAABAAQAAAAAAAAAAAACAAQAAAAAAAAAAAADAAQAAAAAAAAAAAAEAAQAAAAAAAAAAAAFAAQAAAAAAAAAAAABAAUAAAAAAAAAAAACAAUAAAAAAAAAAAADAAUAAAAAAAAAAAAEAAUAAAAAAAAAAAAFAAUAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_0g5m8")
