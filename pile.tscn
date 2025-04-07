@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://duo2oqi3ly24t"]
 
-[ext_resource type="Script" path="res://pile.gd" id="1_0k66a"]
+[ext_resource type="Script" uid="uid://scen6vxerqe0" path="res://pile.gd" id="1_0k66a"]
 [ext_resource type="Texture2D" uid="uid://dxkbim2y4lnmt" path="res://art/garbage_pile_highlight.png" id="2_cy4of"]
 [ext_resource type="Texture2D" uid="uid://bigt78nkp21uy" path="res://art/garbage_pile.png" id="2_x4yeu"]
 

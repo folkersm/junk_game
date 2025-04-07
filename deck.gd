@@ -1,24 +1,28 @@
 extends Node2D
 
-var deck: PackedInt32Array = [1, 3, 1] #set only for testing purposes
-var end: int = 2
-var top_card = 1 #set only for testing purposes
+var deck: PackedInt32Array = [] #set only for testing purposes
+var end: int = -1
+var top_card = -1 #set only for testing purposes
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	display_card(deck[-1])
 	$Scrap.hide()
 	$Upgrade.hide()
 	$Build.hide()
+	display_card()
 
-func add_card(id):
+func add_card(name, level):
 	if len(deck) == end+1:
-		deck.append(id)
+		var card = {
+			"name": name,
+			"level": level
+			}
+		deck.append(card)
 	else:
-		deck[end] = id
+		deck[end] = name
 		end += 1
 	hide_cards()
-	display_card(id)
+	display_card()
 	
 func remove_card() -> int:
 	if end >-1:
@@ -27,18 +31,16 @@ func remove_card() -> int:
 		end -=1
 		hide_cards()
 		if end != -1:
-			display_card(deck[end])
+			display_card()
 		return card
-		
-		
 	else: return 0
 
 func hide_cards(): 
 	$RevealedCard.texture = null
 	$RevealedCardHighlight.texture = null
 
-func display_card(id):
-	var file_path ="res://Cards/" + str(id) + ".png"
+func display_card():
+	var file_path ="res://Cards/" + str(deck[-1]) + ".png"
 	if FileAccess.file_exists(file_path):
 		$RevealedCard.texture = load(file_path)
 	else:

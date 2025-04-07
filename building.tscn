@@ -1,3 +1,10 @@
-[gd_scene format=3 uid="uid://e2jypj2xxwpm"]
+[gd_scene load_steps=2 format=3 uid="uid://e2jypj2xxwpm"]
+
+[ext_resource type="Script" uid="uid://7um4olrinah8" path="res://building.gd" id="1_5j34s"]
 
 [node name="Building" type="Node2D"]
+script = ExtResource("1_5j34s")
+
+[node name="photo" type="Sprite2D" parent="."]
+
+[node name="photo_shadow" type="Sprite2D" parent="."]

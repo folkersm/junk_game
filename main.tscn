@@ -1,19 +1,17 @@
-[gd_scene load_steps=17 format=3 uid="uid://dlf0h0pv85qed"]
+[gd_scene load_steps=15 format=3 uid="uid://dlf0h0pv85qed"]
 
 [ext_resource type="PackedScene" uid="uid://c6w2ue1evpkbe" path="res://floor.tscn" id="1_opmlo"]
-[ext_resource type="Script" path="res://main_view.gd" id="1_uqibj"]
-[ext_resource type="Script" path="res://main.gd" id="1_vlh1g"]
-[ext_resource type="Script" path="res://floor.gd" id="2_xk1tc"]
-[ext_resource type="Script" path="res://game_clock.gd" id="4_bjsv2"]
-[ext_resource type="Script" path="res://frame_progress.gd" id="5_njoox"]
-[ext_resource type="Script" path="res://game_progress.gd" id="6_4ya5u"]
-[ext_resource type="Script" path="res://item_bar.gd" id="9_de2uq"]
-[ext_resource type="Script" path="res://deck.gd" id="10_hxo58"]
+[ext_resource type="Script" uid="uid://bgey6g41xi7kp" path="res://main_view.gd" id="1_uqibj"]
+[ext_resource type="Script" uid="uid://bxqdgamh7sa4c" path="res://main.gd" id="1_vlh1g"]
+[ext_resource type="Script" uid="uid://cl1u3h1egs1va" path="res://floor.gd" id="2_xk1tc"]
+[ext_resource type="Script" uid="uid://cq13rdcmvfd4o" path="res://game_clock.gd" id="4_bjsv2"]
+[ext_resource type="Script" uid="uid://bwowgkenflua5" path="res://frame_progress.gd" id="5_njoox"]
+[ext_resource type="Script" uid="uid://dnrsayssssn6p" path="res://game_progress.gd" id="6_4ya5u"]
+[ext_resource type="Script" uid="uid://cqnpt5oxavn6n" path="res://item_bar.gd" id="9_de2uq"]
+[ext_resource type="Script" uid="uid://b5o8mlytgnlt5" path="res://deck.gd" id="10_hxo58"]
 [ext_resource type="Texture2D" uid="uid://dy5gwumf7v4uf" path="res://art/card_base.png" id="11_fyjnb"]
-[ext_resource type="Texture2D" uid="uid://c8tvjp6mdaunq" path="res://Cards/battery.png" id="12_1cj35"]
-[ext_resource type="Script" path="res://score_tracker.gd" id="12_45ku1"]
-[ext_resource type="Texture2D" uid="uid://djv4okfokjolf" path="res://Cards/cone.png" id="13_cg52h"]
-[ext_resource type="Texture2D" uid="uid://f3swognck1n4" path="res://Cards/rock.png" id="14_xq3bu"]
+[ext_resource type="Script" uid="uid://ddsu04m3a3x1e" path="res://score_tracker.gd" id="12_45ku1"]
+[ext_resource type="Script" uid="uid://bjmgcw2irq3i6" path="res://card_draw_manager.gd" id="12_dg77c"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2pvlv"]
 
@@ -174,11 +172,6 @@ offset_right = 40.0
 offset_bottom = 23.0
 scale = Vector2(4.59683, 4.18765)
 
-[node name="Battery" type="Sprite2D" parent="MainView"]
-position = Vector2(488, 352)
-scale = Vector2(0.659686, 0.865441)
-texture = ExtResource("12_1cj35")
-
 [node name="ScreenAdjustTimer" type="Timer" parent="."]
 wait_time = 0.205
 autostart = true
@@ -193,15 +186,8 @@ offset_bottom = 184.0
 scale = Vector2(1.72293, 1.68683)
 text = "go"
 
-[node name="Cone" type="Sprite2D" parent="."]
-position = Vector2(664, 368)
-scale = Vector2(0.375, 0.359375)
-texture = ExtResource("13_cg52h")
-
-[node name="Rock" type="Sprite2D" parent="."]
-position = Vector2(576, 464)
-scale = Vector2(0.625, 0.625)
-texture = ExtResource("14_xq3bu")
+[node name="CardDrawManager" type="Node" parent="."]
+script = ExtResource("12_dg77c")
 
 [connection signal="timeout" from="MainView/GameClock/GameSpeedAdjust/GameClockTimer" to="MainView/GameClock" method="_on_game_clock_timer_timeout"]
 [connection signal="done" from="MainView/GameClock/FrameProgress" to="MainView/GameClock/GameProgress" method="_on_frame_progress_done"]

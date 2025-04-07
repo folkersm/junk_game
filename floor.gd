@@ -8,7 +8,6 @@ var build_mode: bool = false
 func _ready() -> void:
 	pass # Replace with function body.
 
-
 func add_pile():
 	var new_pile = pile.instantiate()
 	add_child(new_pile)

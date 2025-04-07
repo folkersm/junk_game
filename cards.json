@@ -1,0 +1,18 @@
+[
+	{
+		"name":"rock",
+		"rarity": 40,
+		"type": "nature"
+	},
+	{
+		"name":"cone",
+		"rarity": 30,
+		"type": "industrial"
+	},
+	{
+		"name":"battery",
+		"rarity": 20,
+		"type": "tech"
+	}
+	
+]
