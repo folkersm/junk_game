@@ -40,23 +40,28 @@ func hide_cards():
 	$RevealedCardHighlight.texture = null
 
 func display_card():
-	var file_path ="res://Cards/" + str(deck[-1]) + ".png"
-	if FileAccess.file_exists(file_path):
-		$RevealedCard.texture = load(file_path)
+	if (len(deck) > 0):
+		var file_path ="res://Cards/" + str(deck[-1]) + ".png"
+		if FileAccess.file_exists(file_path):
+			$RevealedCard.texture = load(file_path)
+		else:
+			print("couldn't find card")
 	else:
-		print("couldn't find card")
+		print("deck is empty")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
 
-
 func _on_grab_card_pressed() -> void:
-	var file_path ="res://Cards/" + str(top_card) + "h.png"
-	if FileAccess.file_exists(file_path):
-		$RevealedCardHighlight.texture = load(file_path)
-		$Scrap.show()
-		$Build.show()
-		$Upgrade.show()
+	if len(deck) > 0:
+		var file_path ="res://Cards/" + str(top_card) + "h.png"
+		if FileAccess.file_exists(file_path):
+			$RevealedCardHighlight.texture = load(file_path)
+			$Scrap.show()
+			$Build.show()
+			$Upgrade.show()
+		else:
+			print("couldn't find card")
 	else:
-		print("couldn't find card")
+		print("no cards in the deck")
