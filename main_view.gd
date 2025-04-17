@@ -2,16 +2,20 @@ extends Node2D
 
 var previous_view
 var original_size
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	previous_view = get_viewport().size
 	original_size = get_viewport().size
+	
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
 		
+
+
 
 func _on_screen_adjust_timer_timeout() -> void:
 	if previous_view != get_viewport().size:

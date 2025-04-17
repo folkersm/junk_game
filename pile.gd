@@ -15,6 +15,8 @@ var coords : Vector2
 var distro_of_type_prob
 var distro_of_types
 var chance_of_card = .1
+signal signal_generate_card(type)
+signal signal_generate_resource(type)
 
 var path_to_card_rarity = "res://cards.json"
 # Called when the node enters the scene tree for the first time.
@@ -77,4 +79,8 @@ func _on_select_pressed() -> void:
 		generate_resource(type)
 	# somehow I need to track the chances of getting a resource vs a card. 
 	
+func generate_card(type):
+	signal_generate_card.emit(type)
 	
+func generate_resource(type):
+	signal_generate_resource.emit(type)
