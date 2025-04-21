@@ -1,21 +1,21 @@
-[gd_scene load_steps=19 format=4 uid="uid://dlf0h0pv85qed"]
+[gd_scene load_steps=19 format=3 uid="uid://dlf0h0pv85qed"]
 
 [ext_resource type="PackedScene" uid="uid://c6w2ue1evpkbe" path="res://floor.tscn" id="1_opmlo"]
 [ext_resource type="Script" uid="uid://bgey6g41xi7kp" path="res://main_view.gd" id="1_uqibj"]
 [ext_resource type="Script" uid="uid://bxqdgamh7sa4c" path="res://main.gd" id="1_vlh1g"]
 [ext_resource type="Script" uid="uid://cl1u3h1egs1va" path="res://floor.gd" id="2_xk1tc"]
+[ext_resource type="Texture2D" uid="uid://cld6jlh5pvr6h" path="res://art/tile.png" id="4_43af7"]
 [ext_resource type="Script" uid="uid://cq13rdcmvfd4o" path="res://game_clock.gd" id="4_bjsv2"]
-[ext_resource type="Texture2D" uid="uid://bmutlqu7s2gtl" path="res://art/tile_h.png" id="4_ycdy4"]
 [ext_resource type="Script" uid="uid://bwowgkenflua5" path="res://frame_progress.gd" id="5_njoox"]
-[ext_resource type="Texture2D" uid="uid://cld6jlh5pvr6h" path="res://art/tile.png" id="5_w48qg"]
+[ext_resource type="Texture2D" uid="uid://bmutlqu7s2gtl" path="res://art/tile_h.png" id="5_pjidw"]
 [ext_resource type="Script" uid="uid://dnrsayssssn6p" path="res://game_progress.gd" id="6_4ya5u"]
 [ext_resource type="Script" uid="uid://cqnpt5oxavn6n" path="res://item_bar.gd" id="9_de2uq"]
 [ext_resource type="Script" uid="uid://b5o8mlytgnlt5" path="res://deck.gd" id="10_hxo58"]
 [ext_resource type="Texture2D" uid="uid://dy5gwumf7v4uf" path="res://art/card_base.png" id="11_fyjnb"]
 [ext_resource type="Script" uid="uid://ddsu04m3a3x1e" path="res://score_tracker.gd" id="12_45ku1"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vivmo"]
-texture = ExtResource("4_ycdy4")
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gvqpl"]
+texture = ExtResource("4_43af7")
 texture_region_size = Vector2i(256, 256)
 0:0/0 = 0
 1:0/0 = 0
@@ -274,8 +274,8 @@ texture_region_size = Vector2i(256, 256)
 14:15/0 = 0
 15:15/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2cqfq"]
-texture = ExtResource("5_w48qg")
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_r2m0p"]
+texture = ExtResource("5_pjidw")
 texture_region_size = Vector2i(256, 256)
 0:0/0 = 0
 1:0/0 = 0
@@ -534,10 +534,10 @@ texture_region_size = Vector2i(256, 256)
 14:15/0 = 0
 15:15/0 = 0
 
-[sub_resource type="TileSet" id="TileSet_yaehf"]
+[sub_resource type="TileSet" id="TileSet_myveg"]
 tile_size = Vector2i(256, 256)
-sources/0 = SubResource("TileSetAtlasSource_vivmo")
-sources/1 = SubResource("TileSetAtlasSource_2cqfq")
+sources/0 = SubResource("TileSetAtlasSource_gvqpl")
+sources/1 = SubResource("TileSetAtlasSource_r2m0p")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2pvlv"]
 
@@ -551,12 +551,10 @@ script = ExtResource("1_uqibj")
 metadata/_edit_group_ = true
 
 [node name="Board" parent="MainView" instance=ExtResource("1_opmlo")]
-position = Vector2(267, 88)
+position = Vector2(264, 74)
 scale = Vector2(0.35, 0.35)
-tile_map_data = PackedByteArray("AAABAAEAAQAAAAAAAAACAAEAAQAAAAAAAAABAAIAAQAAAAAAAAACAAIAAQAAAAAAAAADAAEAAQAAAAAAAAADAAIAAQAAAAAAAAAEAAEAAQAAAAAAAAAEAAIAAQAAAAAAAAAFAAEAAQAAAAAAAAAFAAIAAQAAAAAAAAABAAMAAQAAAAAAAAACAAMAAQAAAAAAAAADAAMAAQAAAAAAAAAEAAMAAQAAAAAAAAAFAAMAAQAAAAAAAAABAAQAAQAAAAAAAAACAAQAAQAAAAAAAAADAAQAAQAAAAAAAAAEAAQAAQAAAAAAAAAFAAQAAQAAAAAAAAABAAUAAQAAAAAAAAACAAUAAQAAAAAAAAADAAUAAQAAAAAAAAAEAAUAAQAAAAAAAAAFAAUAAQAAAAAAAAA=")
-tile_set = SubResource("TileSet_yaehf")
+tile_set = SubResource("TileSet_myveg")
 script = ExtResource("2_xk1tc")
-metadata/is_hover = false
 
 [node name="GameClock" type="Node2D" parent="MainView"]
 script = ExtResource("4_bjsv2")
@@ -692,14 +690,169 @@ offset_bottom = 351.0
 text = "Build
 "
 
+[node name="CardCount" type="Label" parent="MainView/Deck"]
+offset_left = 260.0
+offset_top = 400.0
+offset_right = 300.0
+offset_bottom = 423.0
+
 [node name="ScoreTracker" type="Node2D" parent="MainView"]
-position = Vector2(904, 256)
+position = Vector2(832, 256)
 script = ExtResource("12_45ku1")
 
-[node name="Score" type="Label" parent="MainView/ScoreTracker"]
+[node name="ScoreLabels" type="Node2D" parent="MainView/ScoreTracker"]
+
+[node name="industrial" type="Label" parent="MainView/ScoreTracker/ScoreLabels"]
+offset_left = 100.0
+offset_top = -20.0
+offset_right = 174.0
+offset_bottom = 3.0
+scale = Vector2(1.9, 1.9)
+text = "industrial"
+
+[node name="nature" type="Label" parent="MainView/ScoreTracker/ScoreLabels"]
+offset_left = 100.0
+offset_top = 18.0
+offset_right = 153.0
+offset_bottom = 41.0
+scale = Vector2(1.9, 1.9)
+text = "nature"
+
+[node name="food" type="Label" parent="MainView/ScoreTracker/ScoreLabels"]
+offset_left = 100.0
+offset_top = 56.0
+offset_right = 140.0
+offset_bottom = 79.0
+scale = Vector2(1.9, 1.9)
+text = "food"
+
+[node name="paper" type="Label" parent="MainView/ScoreTracker/ScoreLabels"]
+offset_left = 100.0
+offset_top = 94.0
+offset_right = 146.0
+offset_bottom = 117.0
+scale = Vector2(1.9, 1.9)
+text = "paper"
+
+[node name="plastic" type="Label" parent="MainView/ScoreTracker/ScoreLabels"]
+offset_left = 100.0
+offset_top = 132.0
+offset_right = 151.0
+offset_bottom = 155.0
+scale = Vector2(1.9, 1.9)
+text = "plastic"
+
+[node name="glass" type="Label" parent="MainView/ScoreTracker/ScoreLabels"]
+offset_left = 100.0
+offset_top = 170.0
+offset_right = 151.0
+offset_bottom = 193.0
+scale = Vector2(1.9, 1.9)
+text = "glass"
+
+[node name="metal" type="Label" parent="MainView/ScoreTracker/ScoreLabels"]
+offset_left = 100.0
+offset_top = 208.0
+offset_right = 145.0
+offset_bottom = 231.0
+scale = Vector2(1.9, 1.9)
+text = "metal"
+
+[node name="tech" type="Label" parent="MainView/ScoreTracker/ScoreLabels"]
+offset_left = 100.0
+offset_top = 246.0
+offset_right = 145.0
+offset_bottom = 269.0
+scale = Vector2(1.9, 1.9)
+text = "tech"
+
+[node name="fabric" type="Label" parent="MainView/ScoreTracker/ScoreLabels"]
+offset_left = 100.0
+offset_top = 284.0
+offset_right = 145.0
+offset_bottom = 307.0
+scale = Vector2(1.9, 1.9)
+text = "fabric"
+
+[node name="toxic" type="Label" parent="MainView/ScoreTracker/ScoreLabels"]
+offset_left = 100.0
+offset_top = 322.0
+offset_right = 140.0
+offset_bottom = 345.0
+scale = Vector2(1.9, 1.9)
+text = "toxic"
+
+[node name="Scores" type="Node2D" parent="MainView/ScoreTracker"]
+
+[node name="industrial" type="Label" parent="MainView/ScoreTracker/Scores"]
+offset_top = -20.0
+offset_right = 74.0
+offset_bottom = 3.0
+scale = Vector2(1.9, 1.9)
+text = "0"
+
+[node name="nature" type="Label" parent="MainView/ScoreTracker/Scores"]
+offset_top = 18.0
+offset_right = 53.0
+offset_bottom = 41.0
+scale = Vector2(1.9, 1.9)
+text = "0"
+
+[node name="food" type="Label" parent="MainView/ScoreTracker/Scores"]
+offset_top = 56.0
 offset_right = 40.0
-offset_bottom = 23.0
-scale = Vector2(4.59683, 4.18765)
+offset_bottom = 79.0
+scale = Vector2(1.9, 1.9)
+text = "0"
+
+[node name="paper" type="Label" parent="MainView/ScoreTracker/Scores"]
+offset_top = 94.0
+offset_right = 46.0
+offset_bottom = 117.0
+scale = Vector2(1.9, 1.9)
+text = "0"
+
+[node name="plastic" type="Label" parent="MainView/ScoreTracker/Scores"]
+offset_top = 132.0
+offset_right = 46.0
+offset_bottom = 155.0
+scale = Vector2(1.9, 1.9)
+text = "0"
+
+[node name="glass" type="Label" parent="MainView/ScoreTracker/Scores"]
+offset_top = 170.0
+offset_right = 51.0
+offset_bottom = 193.0
+scale = Vector2(1.9, 1.9)
+text = "0"
+
+[node name="metal" type="Label" parent="MainView/ScoreTracker/Scores"]
+offset_top = 208.0
+offset_right = 40.0
+offset_bottom = 231.0
+scale = Vector2(1.9, 1.9)
+text = "0"
+
+[node name="tech" type="Label" parent="MainView/ScoreTracker/Scores"]
+offset_top = 246.0
+offset_right = 45.0
+offset_bottom = 269.0
+scale = Vector2(1.9, 1.9)
+text = "0"
+
+[node name="fabric" type="Label" parent="MainView/ScoreTracker/Scores"]
+offset_top = 284.0
+offset_right = 40.0
+offset_bottom = 307.0
+scale = Vector2(1.9, 1.9)
+text = "0"
+
+[node name="toxic" type="Label" parent="MainView/ScoreTracker/Scores"]
+offset_top = 322.0
+offset_right = 40.0
+offset_bottom = 345.0
+scale = Vector2(1.9, 1.9)
+text = "0"
 
 [node name="ScreenAdjustTimer" type="Timer" parent="."]
 wait_time = 0.205

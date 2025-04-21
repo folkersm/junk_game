@@ -1,7 +1,7 @@
 extends Node2D
 
 
-var distribution_of_types_default = {"industrial": 1,
+var distro_of_types_default = {"industrial": 1,
 "nature":1,
 "food":1,
 "paper":1,
@@ -12,9 +12,10 @@ var distribution_of_types_default = {"industrial": 1,
 "fabric":1,
 "toxic":1}
 var coords : Vector2
-var distro_of_type_prob
+var distro_of_types_prob
 var distro_of_types
-var chance_of_card = .1
+var chance_of_card: float = .5
+var production_amount: int = 1
 signal signal_generate_card(type)
 signal signal_generate_resource(type)
 
@@ -26,7 +27,7 @@ func _ready() -> void:
 
 func init(quantities, in_coords):# used by board scene to init new piles before they are placed on screen
 	coords = in_coords
-	distro_of_type_prob = quantities
+	distro_of_types = quantities
 	create_distro() 
 	determine_graphic()
 	
@@ -38,24 +39,24 @@ func determine_graphic():
 
 func create_distro(): # creates a percentage composition for each type
 	var total_stuff_in_pile = 0
-	for i in distribution_of_types_default.values():
-		total_stuff_in_pile += i
+	for i in distro_of_types:
+		total_stuff_in_pile += distro_of_types[i]
 	var running_total = 0
-	for i in distribution_of_types_default:
-		running_total += i.value()/total_stuff_in_pile
-		distro_of_type_prob[i.key()] = running_total
-		
+	distro_of_types_prob = distro_of_types
+	for i in distro_of_types:
+		running_total += float(distro_of_types[i])/total_stuff_in_pile
+		distro_of_types_prob[i] = running_total
 	
 func select_randomly(): # chooses a resource type from your distribution of types
 	var output = 0
 	var random = randf_range(0.000001,.99999999)
-	var distro_values = distro_of_type_prob.values()
+	var distro_values = distro_of_types_prob.values()
 	if random > 0 and random < distro_values[0]:
-		output = distro_of_type_prob[0]
+		output = distro_of_types_prob.keys()[0]
 	else: # distro uses a array of increasing thressholds, the algoirhtm checks each threshhold in order to see which gap the random number falls in
 		for i in range(len(distro_values)-1):
 			if random > distro_values[i] and random < distro_values[i+1]:
-				output = distro_of_type_prob[i+1]
+				output = distro_of_types_prob.keys()[i+1]
 				break
 	return output
 
@@ -72,7 +73,7 @@ func deselect():
 func _on_select_pressed() -> void:
 	highlight()
 	var type = select_randomly()
-	var random_action = randf_range(0,1)
+	var random_action = randf_range(0.0,1.0)
 	if (random_action < chance_of_card):
 		generate_card(type)
 	else:
@@ -83,4 +84,4 @@ func generate_card(type):
 	signal_generate_card.emit(type)
 	
 func generate_resource(type):
-	signal_generate_resource.emit(type)
+	signal_generate_resource.emit(type, production_amount)

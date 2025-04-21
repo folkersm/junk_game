@@ -1,8 +1,6 @@
 extends Node2D
 
-var deck: PackedInt32Array = [] #set only for testing purposes
-var end: int = -1
-var top_card = -1 #set only for testing purposes
+var deck = [] #set only for testing purposes
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -10,28 +8,25 @@ func _ready() -> void:
 	$Upgrade.hide()
 	$Build.hide()
 	display_card()
+	$CardCount.text = str(len(deck))
 
 func add_card(name, level):
-	if len(deck) == end+1:
-		var card = {
+	var card = {
 			"name": name,
 			"level": level
 			}
-		deck.append(card)
-	else:
-		deck[end] = name
-		end += 1
+	deck.append(card)
+	$CardCount.text = str(len(deck))
 	hide_cards()
 	display_card()
 	
 func remove_card() -> int:
-	if end >-1:
-		var card = deck[end]
-		deck[end] = -1
-		end -=1
+	if len(deck) > 0:
+		var card = deck[-1]
+		$CardCount.text = str(len(deck))
 		hide_cards()
-		if end != -1:
-			display_card()
+		display_card()
+		deck.pop_back()
 		return card
 	else: return 0
 
@@ -46,6 +41,7 @@ func display_card():
 			$RevealedCard.texture = load(file_path)
 		else:
 			print("couldn't find card")
+			$RevealedCard.texture = load("res://Cards/rock.png")
 	else:
 		print("deck is empty")
 
@@ -55,7 +51,7 @@ func _process(delta: float) -> void:
 
 func _on_grab_card_pressed() -> void:
 	if len(deck) > 0:
-		var file_path ="res://Cards/" + str(top_card) + "h.png"
+		var file_path ="res://Cards/" + str(deck[-1]["name"]) + "h.png"
 		if FileAccess.file_exists(file_path):
 			$RevealedCardHighlight.texture = load(file_path)
 			$Scrap.show()
