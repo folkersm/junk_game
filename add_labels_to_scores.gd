@@ -13,7 +13,6 @@ var distribution_of_types_default = {"industrial": 1,
 
 # Called when the script is executed (using File -> Run in Script Editor).
 func _run() -> void:
-	print("helo")
 	var verticle_offset = 10
 	var text_scale = 1.9
 	var node = get_scene()

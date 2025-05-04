@@ -3,8 +3,8 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	$GameSpeedAdjust.max_value = 2
-	$GameSpeedAdjust.min_value = 1
+	$GameSpeedAdjust.max_value = 5
+	$GameSpeedAdjust.min_value = .1
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

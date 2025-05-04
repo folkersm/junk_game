@@ -1,11 +1,11 @@
 extends Node2D
 
-
+var source = "pile"
 var distro_of_types_default = {"industrial": 1,
 "nature":1,
 "food":1,
-"paper":1,
-"plastic":5,
+"paper":10,
+"plastic":1,
 "glass":1,
 "metal":1,
 "tech":1,
@@ -18,8 +18,8 @@ var chance_of_card: float = .5
 var production_amount: int = 1
 signal signal_generate_card(type)
 signal signal_generate_resource(type)
+var main_view
 
-var path_to_card_rarity = "res://cards.json"
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
@@ -64,14 +64,14 @@ func select_randomly(): # chooses a resource type from your distribution of type
 func _process(delta: float) -> void:
 	pass
 
-func highlight():
-	$GarbagePileHighlight.show()
-
 func deselect():
 	$GarbagePileHighlight.hide()
 	
 func _on_select_pressed() -> void:
-	highlight()
+	main_view.player_board_focus = coords
+	
+func activate():
+	$DigAnimation.play("wiggle")
 	var type = select_randomly()
 	var random_action = randf_range(0.0,1.0)
 	if (random_action < chance_of_card):
@@ -84,4 +84,4 @@ func generate_card(type):
 	signal_generate_card.emit(type)
 	
 func generate_resource(type):
-	signal_generate_resource.emit(type, production_amount)
+	signal_generate_resource.emit(coords, type, production_amount, source)

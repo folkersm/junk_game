@@ -2,12 +2,17 @@ extends Node2D
 
 var previous_view
 var original_size
+var player_board_focus = null
+@onready var deck = get_node("Deck")
+@onready var board = get_node("Board")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	previous_view = get_viewport().size
 	original_size = get_viewport().size
 	
+func update_board_focus(coords):
+	player_board_focus = coords
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -15,6 +20,9 @@ func _process(delta: float) -> void:
 	pass
 		
 
+func process_frame():
+	if player_board_focus != null:
+		board.activate(player_board_focus)
 
 
 func _on_screen_adjust_timer_timeout() -> void:

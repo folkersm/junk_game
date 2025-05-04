@@ -1,10 +1,98 @@
-[gd_scene load_steps=3 format=3 uid="uid://duo2oqi3ly24t"]
+[gd_scene load_steps=8 format=3 uid="uid://duo2oqi3ly24t"]
 
 [ext_resource type="Script" uid="uid://scen6vxerqe0" path="res://pile.gd" id="1_0k66a"]
 [ext_resource type="Texture2D" uid="uid://dxkbim2y4lnmt" path="res://art/garbage_pile_highlight.png" id="2_cy4of"]
+[ext_resource type="Texture2D" uid="uid://bigt78nkp21uy" path="res://Piles/garbage_pile.png" id="3_n7xhl"]
+
+[sub_resource type="Animation" id="Animation_bo78q"]
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_glmyv"]
+resource_name = "shake"
+
+[sub_resource type="Animation" id="Animation_2gxmg"]
+resource_name = "wiggle"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.166667, 0.266667),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.490438, -0.226893, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.166667, 0.266667),
+"transitions": PackedFloat32Array(1, 0.307786, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.1, 1.1), Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.166667, 0.366667),
+"transitions": PackedFloat32Array(1, 0.0980731, 5.65685),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -20), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_glmyv"]
+_data = {
+&"RESET": SubResource("Animation_bo78q"),
+&"shake": SubResource("Animation_glmyv"),
+&"wiggle": SubResource("Animation_2gxmg")
+}
 
 [node name="pile" type="Node2D"]
-scale = Vector2(2, 2)
 script = ExtResource("1_0k66a")
 
 [node name="GarbagePileHighlight" type="Sprite2D" parent="."]
@@ -12,6 +100,7 @@ visible = false
 texture = ExtResource("2_cy4of")
 
 [node name="GarbagePile" type="Sprite2D" parent="."]
+texture = ExtResource("3_n7xhl")
 
 [node name="select" type="Button" parent="."]
 modulate = Color(1, 1, 1, 0)
@@ -21,5 +110,11 @@ offset_top = -64.0
 offset_right = -56.0
 offset_bottom = -56.0
 scale = Vector2(15.9673, 16.0322)
+
+[node name="DigAnimation" type="AnimationPlayer" parent="."]
+root_node = NodePath("../GarbagePile")
+libraries = {
+&"": SubResource("AnimationLibrary_glmyv")
+}
 
 [connection signal="pressed" from="select" to="." method="_on_select_pressed"]
