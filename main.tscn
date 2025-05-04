@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://dlf0h0pv85qed"]
+[gd_scene load_steps=27 format=3 uid="uid://dlf0h0pv85qed"]
 
 [ext_resource type="PackedScene" uid="uid://c6w2ue1evpkbe" path="res://floor.tscn" id="1_opmlo"]
 [ext_resource type="Script" uid="uid://bgey6g41xi7kp" path="res://main_view.gd" id="1_uqibj"]
@@ -15,6 +15,7 @@
 [ext_resource type="Script" uid="uid://ddsu04m3a3x1e" path="res://score_tracker.gd" id="12_45ku1"]
 [ext_resource type="Script" uid="uid://cp3j6sups72pv" path="res://revealed_card.gd" id="12_w48qg"]
 [ext_resource type="Script" uid="uid://b2epgkp62cusb" path="res://recycler.gd" id="15_vivmo"]
+[ext_resource type="Texture2D" uid="uid://5rhbgsvjo8w7" path="res://icon.svg" id="16_2cqfq"]
 
 [sub_resource type="Animation" id="Animation_2cqfq"]
 length = 0.001
@@ -939,6 +940,11 @@ script = ExtResource("2_xk1tc")
 libraries = {
 &"": SubResource("AnimationLibrary_vivmo")
 }
+
+[node name="shadow" type="Sprite2D" parent="MainView/Board"]
+position = Vector2(900, 891.429)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("16_2cqfq")
 
 [node name="ScreenAdjustTimer" type="Timer" parent="."]
 wait_time = 0.205

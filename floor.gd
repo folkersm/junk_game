@@ -16,6 +16,7 @@ var grid = []
 var cards_rarity #stores the rarity of each card, organized by types
 var cards_distro  = {}#tracks the probability intervals for each card within each type
 var active_objects = []
+@onready var main_view = get_parent()
 var cards_distro_totals = {"industrial": 0,
 "nature":0,
 "food":0,
@@ -99,7 +100,7 @@ func add_pile(quantities, location):
 		new_pile.position = grid_to_pixel_coords(location)
 		new_pile.signal_generate_resource.connect(generate_resource)
 		new_pile.signal_generate_card.connect(generate_card)
-		new_pile.main_view = get_node("..")
+		new_pile.main_view = main_view
 		add_child(new_pile)
 		grid[location[0]][location[1]] = new_pile
 
@@ -157,7 +158,7 @@ func activate_objects(loc, code, type, source):
 			active_objects.pop_at(index)
 
 func activate(loc):
-	if grid[loc[0]][loc[1]] != null:
+	if not grid_is_empty(loc) and coords_on_grid(loc):
 		grid[loc[0]][loc[1]].activate()
 
 func generate_resource(loc,type, pile_amount, source):
@@ -186,21 +187,23 @@ var dragged_tile_coordinates = Vector2i()
 var grabbed_card
 
 func _input(event):
-	
+	# if left click is pressed down:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		var mouse_position = get_global_mouse_position()
 		var cell_coordinates = world_to_map(mouse_position)
-		
+		# if there's a valid object in the tile where you click
 		if not grid_is_empty(cell_coordinates) and coords_on_grid(cell_coordinates) and is_object(cell_coordinates): # first click to pick up object
 			is_dragging = true
 			drag_start_position = mouse_position
 			dragged_tile_coordinates = cell_coordinates
 			grabbed_card = grid[cell_coordinates[0]][cell_coordinates[1]]
 			# You might want to visually indicate the tile is being dragged here
-
-	# when released, do this
+		else:
+			focus_cell(cell_coordinates)
+	# when released, do this, only when you were already dragging something
 	elif event is InputEventMouseButton and not event.pressed and event.button_index == MOUSE_BUTTON_LEFT and is_dragging:
 		is_dragging = false
+		print("board debug, inside release mouse")
 		var final_pos = world_to_map(get_global_mouse_position())
 		if grid_is_empty(final_pos):
 			grabbed_card.position = grid_to_pixel_coords(final_pos)
@@ -219,6 +222,7 @@ func _input(event):
 				send_to_deck(dragged_tile_coordinates)
 			else:
 				grabbed_card.position = grid_to_pixel_coords(dragged_tile_coordinates)
+				focus_cell(final_pos)
 	
 	#handle moving the object while it's being dragged
 	elif event is InputEventMouseMotion and is_dragging:
@@ -226,7 +230,7 @@ func _input(event):
 		var drag_offset = current_mouse_position - drag_start_position
 		main_view_size = get_parent().scale[1]
 		grabbed_card.position += event.relative/(main_view_size*scale)
-		
+	
 		# Apply the drag offset to the dragged element (e.g., another node or a visual representation)
 				
 func _process(delta: float) -> void:
@@ -246,13 +250,10 @@ func send_to_recycler(loc):
 
 func send_to_deck(loc):
 	var deck_object = grid[loc[0]][loc[1]]
-	var card = {
-		"type": deck_object.type,
-		"name": str(deck_object.object_name),
-		"level": deck_object.level,
-		"upgrade": deck_object.upgrade
-		}
 	deck_object.queue_free()
 	grid[loc[0]][loc[1]] = null
 	deck.add_card(deck_object.type, deck_object.object_name, deck_object.level, deck_object.upgrade)
 	
+func focus_cell(loc):
+	print("setting focus", loc)
+	main_view.update_board_focus(loc)
