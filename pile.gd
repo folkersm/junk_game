@@ -68,9 +68,9 @@ func deselect():
 	$GarbagePileHighlight.hide()
 	
 func _on_select_pressed() -> void:
-	main_view.player_board_focus = coords
+	main_view.update_board_focus(coords)
 	
-func activate():
+func activate(loc, code, input_type, source):
 	$DigAnimation.play("wiggle")
 	var type = select_randomly()
 	var random_action = randf_range(0.0,1.0)

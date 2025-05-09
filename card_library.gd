@@ -8,7 +8,6 @@ func _ready() -> void:
 
 #rather than hard-coding a list of card details, I'm going to use
 func generate_card_probs(): # produce a data structure that holds all types and their probabilities
-	print("generating card probs in card library")
 	probability_dist = {}
 	var cards
 	for type in get_children():

@@ -12,7 +12,8 @@ func _ready() -> void:
 	original_size = get_viewport().size
 	
 func update_board_focus(coords):
-	player_board_focus = coords
+	if board.set_focus_shadow_loc(coords):
+		player_board_focus = coords
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -22,7 +23,7 @@ func _process(delta: float) -> void:
 
 func process_frame():
 	if player_board_focus != null:
-		board.activate(player_board_focus)
+		board.activate(player_board_focus, "player_focus", "null", "player_focus")
 
 
 func _on_screen_adjust_timer_timeout() -> void:

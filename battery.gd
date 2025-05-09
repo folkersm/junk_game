@@ -10,6 +10,13 @@ var location: Vector2i
 var object_name = "battery"
 
 
+
+
+
+func activate(loc, code, type, source):
+	print("printing cone activation ", loc, code, type, source)
+
+
 func set_level(nivel):
 	level = nivel
 	get_node("level").text = str(nivel)

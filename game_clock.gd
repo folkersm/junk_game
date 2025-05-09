@@ -15,4 +15,6 @@ func _process(delta: float) -> void:
 func _on_game_clock_timer_timeout() -> void:
 	$FrameProgress.max_value = $GameSpeedAdjust.value
 	$GameSpeedAdjust/GameClockTimer.wait_time = $GameSpeedAdjust.value
+	$end_frame_signal/AnimationPlayer.play("end_frame")
+	$FrameProgress.value = 0
 	

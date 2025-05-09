@@ -7,6 +7,8 @@ var card_library = load('res://card_library.tscn').instantiate()
 @onready var recycler_tile = get_node("../Recycler/base")
 @onready var deck = get_node("../Deck")
 @onready var deck_tile = get_node("../Deck/CardBase")
+@onready var shadow = get_node("shadow")
+@onready var main_view = get_parent()
 var build_mode: bool = false
 var grid_pos
 var CELL_SIZE = 256
@@ -16,7 +18,7 @@ var grid = []
 var cards_rarity #stores the rarity of each card, organized by types
 var cards_distro  = {}#tracks the probability intervals for each card within each type
 var active_objects = []
-@onready var main_view = get_parent()
+
 var cards_distro_totals = {"industrial": 0,
 "nature":0,
 "food":0,
@@ -157,9 +159,9 @@ func activate_objects(loc, code, type, source):
 		else:
 			active_objects.pop_at(index)
 
-func activate(loc):
+func activate(loc, code, type, source):
 	if not grid_is_empty(loc) and coords_on_grid(loc):
-		grid[loc[0]][loc[1]].activate()
+		grid[loc[0]][loc[1]].activate(loc, code, type, source)
 
 func generate_resource(loc,type, pile_amount, source):
 	activate_objects(loc, "resource", type, source)
@@ -180,6 +182,13 @@ func highlight_tile(pos):
 		prev_pos = pos
 				
 		#highlight tiles when hovering, indicate whether the item can be placed
+
+func set_focus_shadow_loc(loc):
+	if coords_on_grid(loc):
+		shadow.position = grid_to_pixel_coords(loc)
+		return true
+	else:
+		return false
 
 var is_dragging = false
 var drag_start_position = Vector2i()
@@ -203,7 +212,6 @@ func _input(event):
 	# when released, do this, only when you were already dragging something
 	elif event is InputEventMouseButton and not event.pressed and event.button_index == MOUSE_BUTTON_LEFT and is_dragging:
 		is_dragging = false
-		print("board debug, inside release mouse")
 		var final_pos = world_to_map(get_global_mouse_position())
 		if grid_is_empty(final_pos):
 			grabbed_card.position = grid_to_pixel_coords(final_pos)
@@ -255,5 +263,4 @@ func send_to_deck(loc):
 	deck.add_card(deck_object.type, deck_object.object_name, deck_object.level, deck_object.upgrade)
 	
 func focus_cell(loc):
-	print("setting focus", loc)
 	main_view.update_board_focus(loc)

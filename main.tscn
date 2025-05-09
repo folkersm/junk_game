@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://dlf0h0pv85qed"]
+[gd_scene load_steps=31 format=3 uid="uid://dlf0h0pv85qed"]
 
 [ext_resource type="PackedScene" uid="uid://c6w2ue1evpkbe" path="res://floor.tscn" id="1_opmlo"]
 [ext_resource type="Script" uid="uid://bgey6g41xi7kp" path="res://main_view.gd" id="1_uqibj"]
@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://dy5gwumf7v4uf" path="res://art/card_base.png" id="11_fyjnb"]
 [ext_resource type="Script" uid="uid://ddsu04m3a3x1e" path="res://score_tracker.gd" id="12_45ku1"]
 [ext_resource type="Script" uid="uid://cp3j6sups72pv" path="res://revealed_card.gd" id="12_w48qg"]
+[ext_resource type="Script" uid="uid://cwf6dm5ojhk8v" path="res://dragged_card.gd" id="12_yaehf"]
 [ext_resource type="Script" uid="uid://b2epgkp62cusb" path="res://recycler.gd" id="15_vivmo"]
 [ext_resource type="Texture2D" uid="uid://5rhbgsvjo8w7" path="res://icon.svg" id="16_2cqfq"]
 
@@ -52,6 +53,43 @@ tracks/0/keys = {
 _data = {
 &"RESET": SubResource("Animation_2cqfq"),
 &"recycle": SubResource("Animation_vivmo")
+}
+
+[sub_resource type="Animation" id="Animation_074og"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_yaehf"]
+resource_name = "end_frame"
+length = 0.09
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667),
+"transitions": PackedFloat32Array(22.6274, 4.14105, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cegan"]
+_data = {
+&"RESET": SubResource("Animation_074og"),
+&"end_frame": SubResource("Animation_yaehf")
 }
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2pvlv"]
@@ -632,6 +670,12 @@ libraries = {
 &"": SubResource("AnimationLibrary_yaehf")
 }
 
+[node name="recover" type="Button" parent="MainView/Recycler"]
+offset_left = 64.0
+offset_top = -8.0
+offset_right = 72.0
+text = "Recover"
+
 [node name="GameClock" type="Node2D" parent="MainView"]
 script = ExtResource("4_bjsv2")
 
@@ -693,6 +737,17 @@ offset_right = 1045.0
 offset_bottom = 191.0
 text = "Game Progress"
 
+[node name="end_frame_signal" type="ColorRect" parent="MainView/GameClock"]
+offset_left = 1088.0
+offset_top = 128.0
+offset_right = 1128.0
+offset_bottom = 168.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MainView/GameClock/end_frame_signal"]
+libraries = {
+&"": SubResource("AnimationLibrary_cegan")
+}
+
 [node name="ItemBar" type="Node2D" parent="MainView"]
 script = ExtResource("9_de2uq")
 
@@ -746,18 +801,18 @@ z_index = 1
 position = Vector2(152, 256)
 
 [node name="Upgrade" type="Button" parent="MainView/Deck"]
-offset_left = 256.0
-offset_top = 155.0
-offset_right = 331.0
-offset_bottom = 186.0
+offset_left = 208.0
+offset_top = 96.0
+offset_right = 283.0
+offset_bottom = 127.0
 text = "Upgrade
 "
 
 [node name="Scrap" type="Button" parent="MainView/Deck"]
-offset_left = 256.0
-offset_top = 264.0
-offset_right = 307.0
-offset_bottom = 295.0
+offset_left = 128.0
+offset_top = 96.0
+offset_right = 179.0
+offset_bottom = 127.0
 text = "Scrap"
 
 [node name="CardCount" type="Label" parent="MainView/Deck"]
@@ -771,6 +826,10 @@ offset_left = 40.0
 offset_top = 144.0
 offset_right = 80.0
 offset_bottom = 167.0
+
+[node name="DraggedCard" type="Sprite2D" parent="MainView/Deck"]
+z_index = 1
+script = ExtResource("12_yaehf")
 
 [node name="ScoreTracker" type="Node2D" parent="MainView"]
 position = Vector2(832, 256)
@@ -960,9 +1019,12 @@ offset_bottom = 184.0
 scale = Vector2(1.72293, 1.68683)
 text = "go"
 
+[connection signal="pressed" from="MainView/Recycler/recover" to="MainView/Recycler" method="_on_recover_pressed"]
 [connection signal="timeout" from="MainView/GameClock/GameSpeedAdjust/GameClockTimer" to="MainView" method="process_frame"]
 [connection signal="timeout" from="MainView/GameClock/GameSpeedAdjust/GameClockTimer" to="MainView/Recycler" method="on_frame_end"]
 [connection signal="timeout" from="MainView/GameClock/GameSpeedAdjust/GameClockTimer" to="MainView/GameClock" method="_on_game_clock_timer_timeout"]
+[connection signal="timeout" from="MainView/GameClock/GameSpeedAdjust/GameClockTimer" to="MainView/Deck" method="enable_dragging"]
+[connection signal="timeout" from="MainView/GameClock/GameSpeedAdjust/GameClockTimer" to="MainView/Deck/RevealedCard" method="enable_dragging"]
 [connection signal="done" from="MainView/GameClock/FrameProgress" to="MainView/GameClock/GameProgress" method="_on_frame_progress_done"]
 [connection signal="pressed" from="MainView/ItemBar/PurchaseSlot" to="MainView/ItemBar" method="purchase_slot"]
 [connection signal="pressed" from="MainView/Deck/GrabCard" to="MainView/Deck" method="_on_grab_card_pressed"]
