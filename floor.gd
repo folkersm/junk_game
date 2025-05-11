@@ -13,7 +13,7 @@ var build_mode: bool = false
 var grid_pos
 var CELL_SIZE = 256
 var daddy
-var grid_size = 5
+var grid_size
 var grid = []
 var cards_rarity #stores the rarity of each card, organized by types
 var cards_distro  = {}#tracks the probability intervals for each card within each type
@@ -50,11 +50,23 @@ func _ready() -> void:
 	generate_cards_distro()
 	var daddy = get_parent()
 	node_deck = get_node(path_deck)
-	for i in grid_size:
-		grid.append([null,null,null,null,null])
+	#for i in grid_size:
+		#grid.append([null,null,null,null,null])
+	
+	#
+	
+	
+	
+func build_map(map_array):
+	grid = map_array
+	grid_size = [len(map_array[0]), len(map_array)]
+	for row in range(len(map_array)):
+		for column in range(len(map_array[row])):
+			print(row, column, map_array[row][column])
+			set_cell(Vector2i(row, column), 0, Vector2i(0,0), 0)
 	add_pile(distribution_of_types_default, Vector2(2,2))
 	add_building("clover", 20, Vector2i(0,0), "nature")
-		
+	
 func is_object(loc):
 	if "object_name" in grid[loc[0]][loc[1]]:
 		return true
@@ -62,13 +74,13 @@ func is_object(loc):
 		return false
 
 func grid_is_empty(loc): # takes in a integer coord and returns boolean of whether it's in the grid
-	if loc[0] >= 0 and loc[0] <= grid_size-1 and loc[1] >= 0 and loc[1] < grid_size and grid[int(loc[0])][int(loc[1])] == null:
+	if loc[0] >= 0 and loc[0] <= grid_size[0]-1 and loc[1] >= 0 and loc[1] < grid_size[1] and grid[int(loc[0])][int(loc[1])] == null:
 			return true
 	else:
 		return false
 
 func coords_on_grid(loc): # takes in a integer coord and returns boolean of whether it's in the grid
-	if loc[0] >= 0 and loc[0] <= grid_size-1 and loc[1] >= 0 and loc[1] < grid_size:
+	if loc[0] >= 0 and loc[0] <= grid_size[0]-1 and loc[1] >= 0 and loc[1] < grid_size[1]:
 			return true
 	else:
 		return false
@@ -78,7 +90,7 @@ func world_to_map(pos):# pos is a Vector2
 	CELL_SIZE = tile_set.tile_size * scale[0]*main_view_size
 	var offset_pos = pos-position*main_view_size  # Mouse position in world space
 	grid_pos = offset_pos / (CELL_SIZE[0])
-	grid_pos = Vector2i(grid_pos.floor()) - Vector2i(1,1) # Integer grid coordinates with offset applied
+	grid_pos = Vector2i(grid_pos.floor()) # Integer grid coordinates with offset applied
 	return grid_pos #works with scaling of window
 
 func grid_to_viewport(coords): #converts integer coords of grid 2d array to pixel coords for the viewport
@@ -88,7 +100,7 @@ func grid_to_viewport(coords): #converts integer coords of grid 2d array to pixe
 func grid_to_pixel_coords(int_coords): # converts grid coords to pixel coords for tileset
 	main_view_size = get_parent().scale[1]
 	CELL_SIZE = tile_set.tile_size
-	var output = Vector2i(int_coords[0],int_coords[1])*CELL_SIZE +CELL_SIZE*3/2 # scale teh grid coords by tile size and add offset for the fact that the grid isn't in the corner of the 
+	var output = Vector2i(int_coords[0],int_coords[1])*CELL_SIZE +CELL_SIZE*1/2 # scale teh grid coords by tile size and add offset for the fact that the grid isn't in the corner of the 
 	return output
 
 
@@ -96,7 +108,7 @@ func grid_to_pixel_coords(int_coords): # converts grid coords to pixel coords fo
 
 
 func add_pile(quantities, location):
-	if grid_is_empty(location):
+	if grid != [] and grid_is_empty(location):
 		var new_pile = pile.instantiate()
 		new_pile.init(quantities, location)
 		new_pile.position = grid_to_pixel_coords(location)
@@ -108,7 +120,7 @@ func add_pile(quantities, location):
 
 var old_build = false
 func add_building(nombre, level, location, type):
-	if grid_is_empty(location):
+	if grid != [] and grid_is_empty(location):
 		activate_objects(location, "building added", type, "deck")
 		var new_build = card_library.get_card(nombre, type).duplicate()
 		new_build.position = grid_to_pixel_coords(location)
@@ -172,14 +184,13 @@ func resource_gen_modifier(pile_amount, type): #use this to implement stat modif
 	return pile_amount
 	
 
-var prev_pos
+var prev_pos = Vector2i(0,0)
 func highlight_tile(pos):
-	pos += Vector2i(1,1)
-	if prev_pos:
+	if prev_pos != pos:
 		set_cell(prev_pos, 0, Vector2i(0,0),0)
-	if pos[0] >= 1 and pos[0] <= 5 and pos[1] >=1 and pos[1] <= 5:
-		set_cell(pos, 1, Vector2i(0,0), 0)
-		prev_pos = pos
+		if pos[0] >= 0 and pos[0] < grid_size[0] and pos[1] >= 0 and pos[1] < grid_size[1]:
+			set_cell(pos, 1, Vector2i(0,0), 0)
+			prev_pos = pos
 				
 		#highlight tiles when hovering, indicate whether the item can be placed
 

@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://d36g76wha7ktq"]
+
+[ext_resource type="Script" uid="uid://dexgmw013wcel" path="res://main_menu.gd" id="1_ouk20"]
+[ext_resource type="Script" uid="uid://l6x6kk00cceq" path="res://item_list.gd" id="2_ouk20"]
+
+[node name="Menu" type="Node"]
+
+[node name="MainMenu" type="Node2D" parent="."]
+script = ExtResource("1_ouk20")
+
+[node name="StartGame" type="Button" parent="MainMenu"]
+offset_left = 496.0
+offset_top = 176.0
+offset_right = 504.0
+offset_bottom = 184.0
+scale = Vector2(1.72293, 1.68683)
+text = "go"
+
+[node name="ItemList" type="ItemList" parent="MainMenu"]
+offset_left = 671.0
+offset_top = 189.0
+offset_right = 799.0
+offset_bottom = 287.0
+allow_search = false
+item_count = 3
+item_0/text = "zone 1"
+item_1/text = "zone 2"
+item_2/text = "zone 3"
+script = ExtResource("2_ouk20")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://dlf0h0pv85qed"]
+[gd_scene load_steps=30 format=3 uid="uid://dlf0h0pv85qed"]
 
 [ext_resource type="PackedScene" uid="uid://c6w2ue1evpkbe" path="res://floor.tscn" id="1_opmlo"]
 [ext_resource type="Script" uid="uid://bgey6g41xi7kp" path="res://main_view.gd" id="1_uqibj"]
@@ -9,7 +9,6 @@
 [ext_resource type="Script" uid="uid://bwowgkenflua5" path="res://frame_progress.gd" id="5_njoox"]
 [ext_resource type="Texture2D" uid="uid://bmutlqu7s2gtl" path="res://art/tile_h.png" id="5_pjidw"]
 [ext_resource type="Script" uid="uid://dnrsayssssn6p" path="res://game_progress.gd" id="6_4ya5u"]
-[ext_resource type="Script" uid="uid://cqnpt5oxavn6n" path="res://item_bar.gd" id="9_de2uq"]
 [ext_resource type="Script" uid="uid://b5o8mlytgnlt5" path="res://deck.gd" id="10_hxo58"]
 [ext_resource type="Texture2D" uid="uid://dy5gwumf7v4uf" path="res://art/card_base.png" id="11_fyjnb"]
 [ext_resource type="Script" uid="uid://ddsu04m3a3x1e" path="res://score_tracker.gd" id="12_45ku1"]
@@ -748,31 +747,6 @@ libraries = {
 &"": SubResource("AnimationLibrary_cegan")
 }
 
-[node name="ItemBar" type="Node2D" parent="MainView"]
-script = ExtResource("9_de2uq")
-
-[node name="PurchaseSlot" type="Button" parent="MainView/ItemBar"]
-offset_left = 712.0
-offset_top = 47.0
-offset_right = 720.0
-offset_bottom = 55.0
-text = "+ item slot"
-
-[node name="SlotSize" type="Label" parent="MainView/ItemBar"]
-offset_left = 720.0
-offset_top = 88.0
-offset_right = 761.0
-offset_bottom = 111.0
-scale = Vector2(0.949232, 1.35843)
-
-[node name="ItemSlotCost" type="Label" parent="MainView/ItemBar"]
-offset_left = 712.0
-offset_top = 104.0
-offset_right = 815.0
-offset_bottom = 127.0
-text = "SlotCost filler
-"
-
 [node name="Deck" type="Node2D" parent="MainView"]
 position = Vector2(0, 96)
 script = ExtResource("10_hxo58")
@@ -990,8 +964,9 @@ scale = Vector2(1.9, 1.9)
 text = "0"
 
 [node name="Board" parent="MainView" instance=ExtResource("1_opmlo")]
-position = Vector2(256, 40)
+position = Vector2(292, 60)
 scale = Vector2(0.35, 0.35)
+tile_map_data = PackedByteArray()
 tile_set = SubResource("TileSet_myveg")
 script = ExtResource("2_xk1tc")
 
@@ -1009,16 +984,6 @@ texture = ExtResource("16_2cqfq")
 wait_time = 0.205
 autostart = true
 
-[node name="MainMenu" type="Node2D" parent="."]
-
-[node name="StartGame" type="Button" parent="MainMenu"]
-offset_left = 496.0
-offset_top = 176.0
-offset_right = 504.0
-offset_bottom = 184.0
-scale = Vector2(1.72293, 1.68683)
-text = "go"
-
 [connection signal="pressed" from="MainView/Recycler/recover" to="MainView/Recycler" method="_on_recover_pressed"]
 [connection signal="timeout" from="MainView/GameClock/GameSpeedAdjust/GameClockTimer" to="MainView" method="process_frame"]
 [connection signal="timeout" from="MainView/GameClock/GameSpeedAdjust/GameClockTimer" to="MainView/Recycler" method="on_frame_end"]
@@ -1026,9 +991,7 @@ text = "go"
 [connection signal="timeout" from="MainView/GameClock/GameSpeedAdjust/GameClockTimer" to="MainView/Deck" method="enable_dragging"]
 [connection signal="timeout" from="MainView/GameClock/GameSpeedAdjust/GameClockTimer" to="MainView/Deck/RevealedCard" method="enable_dragging"]
 [connection signal="done" from="MainView/GameClock/FrameProgress" to="MainView/GameClock/GameProgress" method="_on_frame_progress_done"]
-[connection signal="pressed" from="MainView/ItemBar/PurchaseSlot" to="MainView/ItemBar" method="purchase_slot"]
 [connection signal="pressed" from="MainView/Deck/GrabCard" to="MainView/Deck" method="_on_grab_card_pressed"]
 [connection signal="pressed" from="MainView/Deck/Upgrade" to="MainView/Deck" method="_on_upgrade_pressed"]
 [connection signal="pressed" from="MainView/Deck/Scrap" to="MainView/Deck" method="scrap_card"]
 [connection signal="timeout" from="ScreenAdjustTimer" to="MainView" method="_on_screen_adjust_timer_timeout"]
-[connection signal="pressed" from="MainMenu/StartGame" to="." method="_on_start_game_pressed"]

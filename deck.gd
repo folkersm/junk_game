@@ -121,7 +121,7 @@ func _input(event):
 func handle_drop(mouse_position):
 	var board_node = board  # Adjust if your board is structured differently
 	var local_pos = board.to_local(mouse_position)
-	var tile_coords = board.local_to_map(local_pos)-Vector2i(1,1)
+	var tile_coords = board.local_to_map(local_pos)
 	var recycler_pos = recycler.to_local(mouse_position)
 
 	# Defensive bounds check
