@@ -183,7 +183,7 @@ func generate_resource(loc,type, pile_amount, source):
 func resource_gen_modifier(pile_amount, type): #use this to implement stat modifiers
 	return pile_amount
 	
-	#test
+	#test2
 
 var prev_pos = Vector2i(0,0)
 func highlight_tile(pos):
