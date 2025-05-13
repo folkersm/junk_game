@@ -3,7 +3,7 @@ name: Discord Push Notification
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   notify:
