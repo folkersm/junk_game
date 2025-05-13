@@ -14,4 +14,4 @@ jobs:
             DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
         with:
-          args: 'New push to **${{ github.repository }}** on `${{ github.ref_name }}` by **${{ github.actor }}**'
+          args: '**${{ github.actor }}** just pushed *${{github.event.head_commit.message}}"* to **${{ github.repository }}** on `${{ github.ref_name }}`'
