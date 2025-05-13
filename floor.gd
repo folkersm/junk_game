@@ -73,14 +73,14 @@ func is_object(loc):
 	else:
 		return false
 
-func grid_is_empty(loc): # takes in a integer coord and returns boolean of whether it's in the grid
-	if loc[0] >= 0 and loc[0] <= grid_size[0]-1 and loc[1] >= 0 and loc[1] < grid_size[1] and grid[int(loc[0])][int(loc[1])] == null:
+func grid_is_empty(loc): # takes in a integer coord and returns boolean of whether it's in the grid. loc = (x,y), grid_size = [y,x]
+	if loc[0] >= 0 and loc[0] <= grid_size[1] and loc[1] >= 0 and loc[1] < grid_size[0] and grid[int(loc[0])][int(loc[1])] == null:
 			return true
 	else:
 		return false
 
 func coords_on_grid(loc): # takes in a integer coord and returns boolean of whether it's in the grid
-	if loc[0] >= 0 and loc[0] <= grid_size[0]-1 and loc[1] >= 0 and loc[1] < grid_size[1]:
+	if loc[0] >= 0 and loc[0] <  grid_size[1] and loc[1] >= 0 and loc[1] < grid_size[0]:
 			return true
 	else:
 		return false
@@ -188,7 +188,7 @@ var prev_pos = Vector2i(0,0)
 func highlight_tile(pos):
 	if prev_pos != pos:
 		set_cell(prev_pos, 0, Vector2i(0,0),0)
-		if pos[0] >= 0 and pos[0] < grid_size[0] and pos[1] >= 0 and pos[1] < grid_size[1]:
+		if pos[0] >= 0 and pos[0] < grid_size[1] and pos[1] >= 0 and pos[1] < grid_size[0]:
 			set_cell(pos, 1, Vector2i(0,0), 0)
 			prev_pos = pos
 				

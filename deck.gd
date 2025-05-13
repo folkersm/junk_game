@@ -127,7 +127,8 @@ func handle_drop(mouse_position):
 	# Defensive bounds check
 	var x = tile_coords.x
 	var y = tile_coords.y
-	if y >= 0 and y < board.grid.size() and x >= 0 and x < board.grid[y].size():
+	print("testing drop item from deck ", x, " ",y, " ", board.grid.size()," ", board.grid[y].size())
+	if y >= 0 and y < board.grid[y].size() and x >= 0 and x < board.grid.size():
 		if board.grid_is_empty(Vector2i(x,y)):
 			var nombre = dragged_card.card_name
 			var level = dragged_card.level

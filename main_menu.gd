@@ -1,10 +1,14 @@
 extends Node2D
-var default_map = [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
+var default_map =[]
+var height = 5
+var width = 6
 
 func _ready():
-	for i in default_map:
-		for j in i:
-			j = 0
+	for i in width:
+		default_map.append([])
+		for j in height:
+			default_map[i].append(null)
+	
 
 func start_game():
 	var selected_zone = $ItemList.get_selected_items()
