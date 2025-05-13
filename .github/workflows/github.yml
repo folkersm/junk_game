@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Send push notification to Discord
+        env:
+            DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
         with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          message: "New push to **${{ github.repository }}** on `${{ github.ref_name }}` by **${{ github.actor }}**"
+          args: 'New push to **${{ github.repository }}** on `${{ github.ref_name }}` by **${{ github.actor }}**'
